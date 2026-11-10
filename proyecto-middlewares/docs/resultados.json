@@ -1,0 +1,101 @@
+{
+  "fecha": "2026-11-10T19:33:25.078Z",
+  "herramienta": "curl.exe",
+  "results": [
+    {
+      "caso": 1,
+      "method": "GET",
+      "route": "/api/tasks",
+      "token": "",
+      "body": null,
+      "expected": 200,
+      "actual": 200,
+      "output": "HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 2\r\nETag: W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n[]",
+      "command": "curl -i -X GET http://localhost:3000/api/tasks"
+    },
+    {
+      "caso": 2,
+      "method": "GET",
+      "route": "/api/tasks/999",
+      "token": "",
+      "body": null,
+      "expected": 404,
+      "actual": 404,
+      "output": "HTTP/1.1 404 Not Found\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 44\r\nETag: W/\"2c-q1eAue3WWUyR/6xpKCQEHp168qY\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Tarea no encontrada\",\"status\":404}",
+      "command": "curl -i -X GET http://localhost:3000/api/tasks/999"
+    },
+    {
+      "caso": 3,
+      "method": "POST",
+      "route": "/api/tasks",
+      "token": "",
+      "body": {
+        "titulo": "Prueba sin token"
+      },
+      "expected": 401,
+      "actual": 401,
+      "output": "HTTP/1.1 401 Unauthorized\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 34\r\nETag: W/\"22-a5AGBJ3wo9XYPif6SAp92FOHtH4\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Token no proporcionado\"}",
+      "command": "curl -i -X POST http://localhost:3000/api/tasks -H \"Content-Type: application/json\" --data '{\"titulo\":\"Prueba sin token\"}'"
+    },
+    {
+      "caso": 4,
+      "method": "POST",
+      "route": "/api/tasks",
+      "token": "abc123",
+      "body": {
+        "prioridad": "urgente"
+      },
+      "expected": 400,
+      "actual": 400,
+      "output": "HTTP/1.1 400 Bad Request\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 83\r\nETag: W/\"53-2wddjxsZYXKMsWjAyAEbrPRmgRg\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"errores\":[\"El titulo es obligatorio\",\"La prioridad debe ser baja, media o alta\"]}",
+      "command": "curl -i -X POST http://localhost:3000/api/tasks -H \"Authorization: Bearer abc123\" -H \"Content-Type: application/json\" --data '{\"prioridad\":\"urgente\"}'"
+    },
+    {
+      "caso": 5,
+      "method": "POST",
+      "route": "/api/tasks",
+      "token": "abc123",
+      "body": {
+        "titulo": "Preparar la práctica",
+        "prioridad": "alta"
+      },
+      "expected": 201,
+      "actual": 201,
+      "output": "HTTP/1.1 201 Created\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 133\r\nETag: W/\"85-ST4VvMx1M6Qmri4aoR7y1NlUtXA\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"id\":1,\"titulo\":\"Preparar la práctica\",\"prioridad\":\"alta\",\"completada\":false,\"creada\":\"2026-11-10T19:33:24.963Z\",\"creadaPor\":\"ana\"}",
+      "command": "curl -i -X POST http://localhost:3000/api/tasks -H \"Authorization: Bearer abc123\" -H \"Content-Type: application/json\" --data '{\"titulo\":\"Preparar la práctica\",\"prioridad\":\"alta\"}'"
+    },
+    {
+      "caso": 6,
+      "method": "DELETE",
+      "route": "/api/tasks/1",
+      "token": "xyz789",
+      "body": null,
+      "expected": 403,
+      "actual": 403,
+      "output": "HTTP/1.1 403 Forbidden\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 48\r\nETag: W/\"30-TS4F/XaaWiB63Wsfq8g0UWhNQV4\"\r\nDate: Tue, 10 Nov 2026 19:33:24 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"No tienes permisos para esta acción\"}",
+      "command": "curl -i -X DELETE http://localhost:3000/api/tasks/1 -H \"Authorization: Bearer xyz789\""
+    },
+    {
+      "caso": 7,
+      "method": "DELETE",
+      "route": "/api/tasks/1",
+      "token": "abc123",
+      "body": null,
+      "expected": 200,
+      "actual": 200,
+      "output": "HTTP/1.1 200 OK\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 29\r\nETag: W/\"1d-mc/Wo5dgQNaHBd+BNhynmecxGe4\"\r\nDate: Tue, 10 Nov 2026 19:33:25 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"mensaje\":\"Tarea eliminada\"}",
+      "command": "curl -i -X DELETE http://localhost:3000/api/tasks/1 -H \"Authorization: Bearer abc123\""
+    },
+    {
+      "caso": 8,
+      "method": "GET",
+      "route": "/api/ruta-que-no-existe",
+      "token": "",
+      "body": null,
+      "expected": 404,
+      "actual": 404,
+      "output": "HTTP/1.1 404 Not Found\r\nX-Powered-By: Express\r\nContent-Type: application/json; charset=utf-8\r\nContent-Length: 43\r\nETag: W/\"2b-i/H5rR216EJV6crJN7+9F7r3MIA\"\r\nDate: Tue, 10 Nov 2026 19:33:25 GMT\r\nConnection: keep-alive\r\nKeep-Alive: timeout=5\r\n\r\n{\"error\":\"Ruta no encontrada\",\"status\":404}",
+      "command": "curl -i -X GET http://localhost:3000/api/ruta-que-no-existe"
+    }
+  ]
+}

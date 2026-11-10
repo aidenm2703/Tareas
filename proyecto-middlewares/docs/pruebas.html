@@ -1,0 +1,73 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><title>Evidencias · 8 pruebas curl</title><style>body{font:16px system-ui;background:#eef2f6;color:#17252d;margin:40px}article{background:white;border:1px solid #ccd7df;border-radius:16px;padding:28px;margin:24px auto;max-width:1000px;page-break-after:always}pre{background:#13262e;color:#d7f8ef;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:10px;font:14px Consolas,monospace}img{max-width:100%}h2{color:#107663}@media print{body{margin:0;background:white}article{border:0}}</style><h1>Práctica: evidencias de ocho pruebas</h1><p>Salida real de curl contra una instancia aislada. Ejecutado 2026-11-10T19:33:25.079Z. Las capturas se agregan al verificar visualmente.</p><article id="caso-1"><h2>Caso 1 · GET /api/tasks</h2><p>Esperado: 200 · Obtenido: 200 · CORRECTO</p><pre>curl -i -X GET http://localhost:3000/api/tasks</pre><pre>HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 2
+ETag: W/"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[]</pre></article><article id="caso-2"><h2>Caso 2 · GET /api/tasks/999</h2><p>Esperado: 404 · Obtenido: 404 · CORRECTO</p><pre>curl -i -X GET http://localhost:3000/api/tasks/999</pre><pre>HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 44
+ETag: W/"2c-q1eAue3WWUyR/6xpKCQEHp168qY"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Tarea no encontrada","status":404}</pre></article><article id="caso-3"><h2>Caso 3 · POST /api/tasks</h2><p>Esperado: 401 · Obtenido: 401 · CORRECTO</p><pre>curl -i -X POST http://localhost:3000/api/tasks -H "Content-Type: application/json" --data '{"titulo":"Prueba sin token"}'</pre><pre>HTTP/1.1 401 Unauthorized
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 34
+ETag: W/"22-a5AGBJ3wo9XYPif6SAp92FOHtH4"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Token no proporcionado"}</pre></article><article id="caso-4"><h2>Caso 4 · POST /api/tasks</h2><p>Esperado: 400 · Obtenido: 400 · CORRECTO</p><pre>curl -i -X POST http://localhost:3000/api/tasks -H "Authorization: Bearer abc123" -H "Content-Type: application/json" --data '{"prioridad":"urgente"}'</pre><pre>HTTP/1.1 400 Bad Request
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 83
+ETag: W/"53-2wddjxsZYXKMsWjAyAEbrPRmgRg"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"errores":["El titulo es obligatorio","La prioridad debe ser baja, media o alta"]}</pre></article><article id="caso-5"><h2>Caso 5 · POST /api/tasks</h2><p>Esperado: 201 · Obtenido: 201 · CORRECTO</p><pre>curl -i -X POST http://localhost:3000/api/tasks -H "Authorization: Bearer abc123" -H "Content-Type: application/json" --data '{"titulo":"Preparar la práctica","prioridad":"alta"}'</pre><pre>HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 133
+ETag: W/"85-ST4VvMx1M6Qmri4aoR7y1NlUtXA"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":1,"titulo":"Preparar la práctica","prioridad":"alta","completada":false,"creada":"2026-11-10T19:33:24.963Z","creadaPor":"ana"}</pre></article><article id="caso-6"><h2>Caso 6 · DELETE /api/tasks/1</h2><p>Esperado: 403 · Obtenido: 403 · CORRECTO</p><pre>curl -i -X DELETE http://localhost:3000/api/tasks/1 -H "Authorization: Bearer xyz789"</pre><pre>HTTP/1.1 403 Forbidden
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 48
+ETag: W/"30-TS4F/XaaWiB63Wsfq8g0UWhNQV4"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"No tienes permisos para esta acción"}</pre></article><article id="caso-7"><h2>Caso 7 · DELETE /api/tasks/1</h2><p>Esperado: 200 · Obtenido: 200 · CORRECTO</p><pre>curl -i -X DELETE http://localhost:3000/api/tasks/1 -H "Authorization: Bearer abc123"</pre><pre>HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 29
+ETag: W/"1d-mc/Wo5dgQNaHBd+BNhynmecxGe4"
+Date: Tue, 10 Nov 2026 19:33:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"mensaje":"Tarea eliminada"}</pre></article><article id="caso-8"><h2>Caso 8 · GET /api/ruta-que-no-existe</h2><p>Esperado: 404 · Obtenido: 404 · CORRECTO</p><pre>curl -i -X GET http://localhost:3000/api/ruta-que-no-existe</pre><pre>HTTP/1.1 404 Not Found
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 43
+ETag: W/"2b-i/H5rR216EJV6crJN7+9F7r3MIA"
+Date: Tue, 10 Nov 2026 19:33:25 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"error":"Ruta no encontrada","status":404}</pre></article></html>

@@ -1,0 +1,10 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><title>Evidencias · 8 pruebas curl</title><style>body{font:16px system-ui;background:#eef2f6;color:#17252d;margin:40px}article{background:white;border:1px solid #ccd7df;border-radius:16px;padding:28px;margin:24px auto;max-width:1000px;page-break-after:always}pre{background:#13262e;color:#d7f8ef;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;border-radius:10px;font:14px Consolas,monospace}img{max-width:100%}h2{color:#107663}@media print{body{margin:0;background:white}article{border:0}}</style><article><h2>Caso 5 · POST /api/tasks</h2><p>Esperado: 201 · Obtenido: 201 · CORRECTO</p><pre>curl -i -X POST http://localhost:3000/api/tasks -H "Authorization: Bearer abc123" -H "Content-Type: application/json" --data '{"titulo":"Preparar la práctica","prioridad":"alta"}'</pre><pre>HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 133
+ETag: W/"85-ST4VvMx1M6Qmri4aoR7y1NlUtXA"
+Date: Tue, 10 Nov 2026 19:33:24 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":1,"titulo":"Preparar la práctica","prioridad":"alta","completada":false,"creada":"2026-11-10T19:33:24.963Z","creadaPor":"ana"}</pre></article></html>
